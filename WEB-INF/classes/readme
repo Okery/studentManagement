@@ -1,0 +1,49 @@
+
+
+	学生考试信息管理系统
+	
+	此系统只完成了管理员的功能，学生和教师的功能没有完善
+	所以只能使用管理员账号密码进行登录
+	有登录、设置密保、修改密码、找回密码（将密码发送到用户邮箱）、添加考试、查看考试详细信息、修改考试信息、删除考试信息
+	
+	
+	使用的是SSH框架  struts2+Spring+Hibernate+Jquery
+	
+	SSH框架分为
+	dao层   数据库操作
+	Service层  服务层   将信息封装  调用dao层进行数据操作
+	Action层   控制层   接受页面数据  调用Service层进行操作
+	
+	程序执行的顺序是：
+		页面数据操作 —》Struts2控件（也就是参数传到Action中) —》Service层（数据在传入到Service）—》Dao层（在这一层进行具体的数据操作，也就是数据库的增删改查）
+		要搞清楚某一个功能的执行，先看页面，在看js文件，从js文件当中找到传递到哪个Action，在从对应的Action当中找使用了哪个Service，再找对应的Service，
+		在Service层再找使用了哪个Dao，然后找到Dao层，就是对数据库的操作
+	
+	
+	以下两个包中的接口和类是对数据库操作的，数据库操作使用的是Hibernate
+	com.student.dao      对数据库操作的接口
+	com.student.dao.Impl  对数据库操作的接口的实现类
+	
+	
+	以下包内的类是定义的Action  Struts2的内容
+	com.student.action
+	
+	以下包中是Service层
+	com.student.service     服务层接口
+	com.student.serviceImpl  服务层接口实现类
+	
+	com.student.test 测试类  不需要了解
+	com.student.util 发送邮件的类   要保证笔记本联网  才能顺利发送邮件
+	
+	Dao层和Service层使用接口—实现类的设计方法是编程规范  就是使用这种写法，不要太纠结
+	
+	Hibernate.cfg.xml 是Hibernate的配置文件
+	struts.xml是struts2的配置文件
+	applicationContext.xml是spring的配置文件
+	
+	
+	jsp为页面  js为页面需要的脚本文件
+	用到的jsp文件有：login.jsp Main.jsp 以及adminJsp包下的jsp文件
+	
+	其余文件都是配置文件  不需要了解
+	

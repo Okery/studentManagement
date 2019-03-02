@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="student" extends="struts-default" namespace="/">
+		<action name="login_*" class="com.student.action.LoginAction" method="{1}">
+			<result name="input">/login.jsp</result>
+			<result name="success">/Main.jsp</result>
+			<result name="student">/student.jsp</result>
+			<result name="LogOutSuccess">/login.jsp</result>
+		</action>
+		<action name="updatePassword_*" class="com.student.action.UpdatePasswordAction" method="{1}">
+			<result name="updateUI">/adminJsp/updatePassword.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action>
+	</package>
+	<package name="teaLogin" extends="json-default" namespace="/">
+		<action name="tea_login" class="com.student.action.LoginExtendAction" method="teacherLogin">
+			<result name="input" type="json"></result>
+			<result name="teacher" type="json"></result>
+		</action>
+	</package>
+	<package name="adminLogin" extends="json-default" namespace="/">
+		<action name="admin_login" class="com.student.action.LoginExtendAction" method="schoolAdminLogin">
+			<result name="input" type="json"></result>
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+	<package name="password" extends="json-default" namespace="/">
+			<action name="comfirmPassword" class="com.student.action.UpdatePasswordAction" method="confirmPassword">
+				<result name="confirmSuccess" type="json"></result>
+			</action>
+	</package>
+	<package name="securityUI"  extends="struts-default" namespace="/">
+		<action name="securityUI" class="com.student.action.SecurityAction" method="securityUI">
+			<result name="securityUI">/adminJsp/security.jsp</result>
+		</action>
+	</package>
+	<package name="security" extends="json-default" namespace="/">
+		<action name="security_*"  class="com.student.action.SecurityAction" method="{1}">
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+	<package name="addExam" extends="struts-default" namespace="/">
+		<action name="addExam" class="com.student.action.ExaminationAction" method="saveUI">
+			<result name="saveUI">/adminJsp/addExamination.jsp</result>
+		</action>
+	</package>
+	<package name="oprationExamination" extends="struts-default" namespace="/">
+		<action name="opration_*" class="com.student.action.ExaminationAction" method="{1}">
+			<result name="show">/adminJsp/showExamination.jsp</result>
+			<result name="detail">/adminJsp/details.jsp</result>
+			<result name="editPage">/adminJsp/updateExamination.jsp</result>
+		</action>
+	</package>
+	<package name="examination" extends="json-default" namespace="/">
+		<action name="exam_*" class="com.student.action.ExaminationAction" method="{1}">
+			<result name="findSubById" type="json"></result>
+			<result name="findTeaById" type="json"></result>
+			<result name="saveSuccess" type="json"></result>
+			<result name="exitOrNotSuccess" type="json"></result>
+			<result name="updateSuccess" type="json"></result>
+			<result name="deleteSuccess" type="json"></result>
+		</action>
+	</package>
+	<package name="retrivePassword" extends="json-default" namespace="/">
+		<action name="retrieve_*" class="com.student.action.RetrievePasswordAction" method="{1}">
+			<result name="retrivePassword" type="json"></result>
+			<result name="pass" type="json"></result>
+		</action>
+	</package>
+	<package name="updateExamination" extends="struts-default" namespace="/">
+	</package>
+	
+	
+</struts>    

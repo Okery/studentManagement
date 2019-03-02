@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+        
+        <!-- 配置c3p0连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql:///studentmanage" />
+		<property name="user" value="root" />
+		<property name="password" value="123" />
+	</bean>
+	
+	<!-- com.ssh.staff.action -->
+	<bean id="loginAction" class="com.student.action.LoginAction" scope="prototype">
+		<property name="loginService" ref="loginService"></property>
+	 </bean>
+	<bean id="updatePasswordAction" class="com.student.action.UpdatePasswordAction" scope="prototype">
+		<property name="updatePasswordService" ref="updatePasswordService"></property>
+	</bean>
+	<bean name="examinationAction" class="com.student.action.ExaminationAction" scope="prototype">
+		<property name="examinationService" ref="examinationService"></property>
+	</bean>
+	<bean name="securityAction" class="com.student.action.SecurityAction" scope="prototype">
+		<property name="securityService" ref="securityService"></property>
+	</bean>
+	<bean name="retrievePasswordAction" class="com.student.action.RetrievePasswordAction" scope="prototype">
+		<property name="retrievePasswordService" ref="retrievePasswordService"></property>
+	</bean>
+	
+	
+	<!-- com.ssh.staff.service -->
+	<bean id="loginService" class="com.student.service.impl.LoginServiceImpl">
+		<property name="loginDao" ref="loginDao"></property>
+	</bean>
+	<bean id="updatePasswordService" class="com.student.service.impl.UpdatePasswordServiceImpl">
+		<property name="updatePasswordDao" ref="updatePasswordDao"></property>
+	</bean>
+	<bean name="examinationService" class="com.student.service.impl.ExaminationServiceImpl">
+		<property name="examinationDao" ref="examinationDao"></property>
+	</bean>
+	<bean name="securityService" class="com.student.service.impl.SecurityServiceImpl">
+		<property name="securityDao" ref="securityDao"></property>
+	</bean>
+	<bean name="retrievePasswordService" class="com.student.service.impl.RetrievePasswordServiceImpl">
+		<property name="retrievePasswordDao" ref="retrievePasswordDao"></property>
+	</bean>
+	
+	<!-- com.ssh.staff.dao -->
+	<bean id="loginDao" class="com.student.dao.impl.LoginDaoImpl">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	<bean id="updatePasswordDao" class="com.student.dao.impl.UpdatePasswordDaoImpl">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	<bean name="examinationDao" class="com.student.dao.impl.ExaminationDaoImpl">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	<bean name="securityDao" class="com.student.dao.impl.SecurityDaoImpl">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	<bean name="retrievePasswordDao" class="com.student.dao.impl.RetrievePasswordDaoImpl">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	
+	
+	<!-- 配置SessionFactory创建
+			spring对SessionFactory的创建已经封装好了一个类
+			可以直接配置生成
+			服务启动时就自动创建
+	 -->
+	<bean id="localSessionFactoryBean"  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 因为在Hibernate核心配置文件中没有数据库的配置，所以要在这里进行文件配置 
+				即配置前面的连接池配置
+		-->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 指定使用的Hibernate核心配置文件 -->
+		<property name="configLocations" value="classpath:hibernate.cfg.xml"></property>
+	</bean>
+	
+	
+	
+	<!-- 事务的配置 -->
+	<!-- 配置事务管理器 -->
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	<!-- 开启事务的注解 -->
+	<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+
+</beans>
